@@ -64,9 +64,14 @@ export class MyCard extends LitElement {
     return html`
     <div class="cardList">
       <div class="card">
-        <img class="image">${this.src}</img>
+        <img src="${this.image}" class="image" width="300px>
         <h2 class="title">${this.title}</h2>
         <p class="description">${this.description}</p>
+        <button class="button">
+          <a
+            href="${this.link}">Details
+          </a> 
+        </button>
         <p class="link">${this.link}</p>
       </div>
     </div>
@@ -87,3 +92,4 @@ export class MyCard extends LitElement {
 }
 
 globalThis.customElements.define(MyCard.tag, MyCard);
+
