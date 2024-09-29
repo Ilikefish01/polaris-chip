@@ -18,6 +18,9 @@ export class MyCard extends LitElement {
     this.image = "Image";
     this.description = "Description";
     this.borderColor = "white";
+    this.link =" link";
+    this.fancy = false;
+    this.summary = "Summary";
   }
 
   static get styles() {
@@ -42,7 +45,7 @@ export class MyCard extends LitElement {
       .card{
         margin: 0 auto;
         max-width: 300px;
-        max-height: 400px;
+        /* max-height: 400px; */
         padding: 10px;
         border-radius: 5px;
         background-color: aqua;
@@ -57,7 +60,23 @@ export class MyCard extends LitElement {
         margin: auto;
         display: block;
       }
+
+      :host([fancy]) .card{
+        display: block;
+        background-color: red;
+        border: 2px solid fuchsia;
+        box-shadow: 10px 5px 5px red;
+}
     `;
+  }
+
+  openChanged(e) {
+    console.log(e.newState);
+    if (e.newState === "open") {
+      this.setAttribute('fancy', '');
+    } else {
+      this.removeAttribute('fancy');
+    }
   }
 
   render() {
@@ -66,14 +85,21 @@ export class MyCard extends LitElement {
       <div class="card">
         <img src="${this.image}" class="image" width="300px>
         <h2 class="title">${this.title}</h2>
+        <details ?open="${this.fancy}"  @toggle="${this.openChanged}">
         <p class="description">${this.description}</p>
-        <button class="button">
+          <div>
+            <slot>${this.Summary}</slot>
+          </div>
+          <p> ${this.link}</p>
+        <!-- <button class="button">
           <a
             href="${this.link}">Details
           </a> 
-        </button>
-        <p class="link">${this.link}</p>
+        </button> -->
+        <!-- <p class="link">${this.link}</p> -->
+        </details>
       </div>
+      
     </div>
 
     `;
@@ -82,14 +108,15 @@ export class MyCard extends LitElement {
 
   static get properties() {
     return {
-      title: { type: String },
-      image: {type: String},
-      description: {type: String},
-      link: {type: String},
-      borderColor: {type: String},
+      title: { type: String, reflect: true },
+      image: {type: String, reflect: true},
+      description: {type: String, reflect: true},
+      link: {type: String, reflect: true},
+      borderColor: {type: String, reflect: true},
+      fancy: {type: Boolean, reflect: true},
+      summary: {type: String, reflect: true},
     };
   }
 }
 
 globalThis.customElements.define(MyCard.tag, MyCard);
-
